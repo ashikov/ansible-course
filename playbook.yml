@@ -1,0 +1,15 @@
+- hosts: lala
+
+  tasks:
+    - name: update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+      become: true
+      tags: update_cache
+
+    - name: install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+      become: true
+      tags: main
