@@ -7,9 +7,32 @@
       become: true
       tags: update_cache
 
-    - name: install git
+    - name: install packages
       ansible.builtin.apt:
-        name: git
+        name: [ git, nginx ]
         state: present
       become: true
       tags: main
+
+    - name: update nginx config
+      ansible.builtin.copy:
+        src: files/nginx.conf
+        dest: /etc/nginx/nginx.conf
+        follow: true
+      notify:
+        - restart nginx
+      become: true
+
+    - name: copy index file
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /usr/share/nginx/html/index.html
+        mode: '0755'
+      become: true
+
+  handlers:
+    - name: restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+      become: true
