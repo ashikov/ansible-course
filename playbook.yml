@@ -1,5 +1,9 @@
 - hosts: lala
 
+  vars:
+    nginx_port: 8080
+    root_dir: /usr/share/nginx/html
+
   tasks:
     - name: update apt cache
       ansible.builtin.apt:
@@ -15,8 +19,8 @@
       tags: main
 
     - name: update nginx config
-      ansible.builtin.copy:
-        src: files/nginx.conf
+      ansible.builtin.template:
+        src: templates/nginx.conf
         dest: /etc/nginx/nginx.conf
         follow: true
       notify:
@@ -26,7 +30,7 @@
     - name: copy index file
       ansible.builtin.copy:
         src: files/index.html
-        dest: /usr/share/nginx/html/index.html
+        dest: "{{root_dir}}/index.html"
         mode: '0755'
       become: true
 
