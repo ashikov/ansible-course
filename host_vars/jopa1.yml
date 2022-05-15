@@ -1,1 +1,1 @@
-server_name: jopa1
+server_name: "{{ ansible_hostname }}"
