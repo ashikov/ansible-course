@@ -1,2 +1,4 @@
 nginx_port: 8080
 root_dir: /usr/share/nginx/html
+date: "{{ ansible_date_time.date }}"
+greeting: "This is server {{ ansible_hostname}}!"
